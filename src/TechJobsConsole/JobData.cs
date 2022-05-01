@@ -23,7 +23,6 @@ namespace TechJobsConsole
         public static List<string> FindAll(string column)
         {
             LoadData();
-
             List<string> values = new List<string>();
 
             foreach (Dictionary<string, string> job in AllJobs)
@@ -37,7 +36,30 @@ namespace TechJobsConsole
             }
             return values;
         }
+        //FIND BY VALUE BELOW THIS LINE
+        public static List<Dictionary<string, string>> FindByValue(string value)
+        {
+            // load data, if not already loaded
+            LoadData();
+            List<Dictionary<string, string>> jobs = new List<Dictionary<string, string>>();
+            foreach (Dictionary<string, string> row in AllJobs)
+            {
+                foreach (KeyValuePair<string, string> column in row)
+                {
+                    if (column.Value.ToLower().Contains(value.ToLower()) && !jobs.Contains(row))
+                    {
 
+                        jobs.Add(row);
+                        continue;
+                    }
+                }
+            }
+
+            return jobs;
+
+        }
+
+        //FIND BY VALUE ABOVE THIS LINE
         public static List<Dictionary<string, string>> FindByColumnAndValue(string column, string value)
         {
             // load data, if not already loaded
@@ -49,7 +71,7 @@ namespace TechJobsConsole
             {
                 string aValue = row[column];
 
-                if (aValue.Contains(value))
+                if (aValue.ToLower().Contains(value.ToLower()))
                 {
                     jobs.Add(row);
                 }
